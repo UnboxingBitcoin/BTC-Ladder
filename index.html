@@ -269,6 +269,50 @@ html[data-glass] .mabtn{font-size:15px!important;padding:10px 16px!important;min
 .chg .stat b{font-size:13px!important}
 .chg .lbl{font-size:10px!important;letter-spacing:0!important}
 
+
+/* ===== Responsive: iPad portrait (2 columns) & PC / landscape (3 columns) ===== */
+.clouds{object-fit:cover}
+@media (min-width:700px){
+  .wrap,html[data-glass] .wrap{max-width:1000px;display:grid;grid-template-columns:1fr 1fr;column-gap:18px;row-gap:18px;align-items:start;
+    padding-left:24px;padding-right:24px;
+    grid-template-areas:"head head" "price price" "signals demo" "signals action" "signals alerts" "signals chart" "backtest backtest" "findings theme" "foot foot" "foot2 foot2"}
+  .wrap>header{grid-area:head;margin-bottom:0!important}
+  .wrap>.card{margin:0!important}
+  .a-price{grid-area:price}.a-signals{grid-area:signals}.a-demo{grid-area:demo}.a-action{grid-area:action}.a-alerts{grid-area:alerts}
+  .a-chart{grid-area:chart}.a-backtest{grid-area:backtest}.a-findings{grid-area:findings}.a-theme{grid-area:theme}
+  .wrap>.foot-big{grid-area:foot}.wrap>.meta{grid-area:foot2}
+  html[data-glass] .clouds{height:200px}
+  .a-price .chg{grid-template-columns:repeat(8,1fr)!important}
+  .sheet{max-width:620px}
+}
+@media (min-width:1100px){
+  .wrap,html[data-glass] .wrap{max-width:1480px;grid-template-columns:1.15fr 1fr 1fr;padding-left:32px;padding-right:32px;
+    grid-template-areas:"head head head" "price signals demo" "chart signals action" "chart signals alerts" "backtest backtest findings" "backtest backtest theme" "foot foot foot" "foot2 foot2 foot2"}
+  .a-price .chg{grid-template-columns:repeat(5,1fr)!important}
+  html[data-glass] .tabbar{display:none}
+  html[data-glass] .wrap{padding-bottom:40px}
+  html[data-glass] header{padding:8px 10px 8px 14px}
+  html[data-glass] header h1{font-size:19px}
+  html[data-glass] header img.logo{width:36px;height:36px}
+  html[data-glass] .date{display:block}
+  html[data-glass] .hp{font-size:17px}
+  html[data-glass] .clouds{height:230px}
+  .foot-big{text-align:center}
+  /* MA sheet becomes a centred panel */
+  .sheet{left:50%;right:auto;bottom:auto;top:50%;width:620px;margin:0;border-radius:28px!important;border-bottom:2.5px solid var(--line);
+    transform:translate(-50%,-44%) scale(.96);opacity:0;transition:transform .3s cubic-bezier(.2,.85,.25,1),opacity .25s;max-height:86vh}
+  html[data-glass] .sheet{border-bottom:0}
+  .sheet.open{transform:translate(-50%,-50%);opacity:1}
+  .grab{display:none}
+  html[data-glass] body.sheet-open main.wrap{transform:none;filter:saturate(.85) blur(1px)}
+}
+/* phone held sideways: short screen, keep the tab bar out of the way */
+@media (orientation:landscape) and (max-height:500px){
+  html[data-glass] .tabbar{display:none}
+  html[data-glass] .wrap{padding-bottom:30px}
+  html[data-glass] header{position:relative;top:0}
+}
+
 /* header theme buttons */
 html[data-glass] header h1{white-space:nowrap;font-size:16px}
 html[data-glass] header img.logo{width:30px;height:30px}
@@ -326,7 +370,7 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   <button class="btn hdr-btn tbtn" id="glassBtn" aria-label="Glass themes"><i class="tdot" id="gDot"></i>Glass</button><button class="btn hdr-btn tbtn" id="retroBtn" aria-label="Retro themes"><i class="tdot" id="rDot"></i>Retro</button>
 </header>
 
-<section class="card" id="sec-price">
+<section class="card a-price" id="sec-price">
   <div class="row" style="justify-content:space-between;align-items:flex-start"><h2><span class="no">01 — </span>Price</h2><span class="tag" id="srcTag">saved</span></div>
   <div class="prow"><div class="big" id="price">—</div><button class="btn mabtn" id="maBtn" aria-haspopup="dialog">MA levels ›</button></div>
   <div class="meta" id="asof"></div>
@@ -343,7 +387,7 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   <div id="dataNote"></div>
 </section>
 
-<section class="card fake" id="sec-signals">
+<section class="card fake a-signals" id="sec-signals">
   <h2><span class="no">02 — </span>Today's signals</h2>
   <div class="chips" id="modeChips"></div>
   <div class="lbl" style="margin:2px 0 6px">Moving-average check</div>
@@ -356,7 +400,7 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   <div id="buyTiers"></div>
 </section>
 
-<section class="card lazy fake" id="sec-demo">
+<section class="card lazy fake a-demo" id="sec-demo">
   <h2><span class="no">03 — </span>Demo portfolio</h2>
   <div class="grid2">
     <label><span class="lbl">Start date</span><input type="date" id="demoStart" value="2025-01-01" min="2014-01-01"></label>
@@ -369,7 +413,7 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   <div class="meta">Paper trades only. Follows the mode picked in Today's signals. Cash earns 4% a year, like a fixed savings account.</div>
 </section>
 
-<section class="card lazy fake">
+<section class="card lazy fake a-action">
   <h2><span class="no">04 — </span>My action today</h2>
   <div class="grid2">
     <label><span class="lbl">BTC held</span><input type="number" id="myBtc" step="0.0001" min="0" value="1"></label>
@@ -380,21 +424,21 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   <div class="meta">Buy tiers 1–3 spend part of the cash raised by sell tiers 1–3. With one cash total, this applies the same fractions to your whole reserve. B4 spends 90% of all cash.</div>
 </section>
 
-<section class="card lazy fake">
+<section class="card lazy fake a-alerts">
   <h2><span class="no">05 — </span>Alerts</h2>
   <div id="alertState" class="meta" style="margin:0 0 10px"></div>
   <button class="btn primary" id="alertBtn">Turn on alerts</button>
   <div class="meta" style="margin-top:10px">The page checks the price every 10 minutes while it's open and sends a phone notification when a tier fires. On iPhone, first add the page to your Home Screen (Share → Add to Home Screen) and open it from there.</div>
 </section>
 
-<section class="card lazy fake">
+<section class="card lazy fake a-chart">
   <h2><span class="no">06 — </span>Chart</h2>
   <div class="chips" id="rangeChips"></div>
   <div id="chart"></div>
   <div class="legend"><span>━ price (log)</span><span>┅ 200-day avg</span><span>▼ sell</span><span>▲ buy</span></div>
 </section>
 
-<section class="card lazy fake" id="sec-backtest">
+<section class="card lazy fake a-backtest" id="sec-backtest">
   <h2><span class="no">07 — </span>Backtest</h2>
   <div class="chips" id="btMode"></div>
   <div class="chips" id="btStart"></div>
@@ -406,7 +450,7 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   <div class="meta">Starts with 1 BTC and no cash. 0.1% fee per trade, no tax. Each tier measures the move from the lowest price (sells) or highest price (buys) inside its own day window. A tier fires when its rule starts matching, and can fire again after the rule stops matching and then matches again. Range values use the midpoint: S1 0.8%, S2 2%, S4 8%, S6 16%, B2 65%.</div>
 </section>
 
-<section class="card lazy fake">
+<section class="card lazy fake a-findings">
   <h2><span class="no">08 — </span>What the test says</h2>
   <ul class="f">
     <li><b>As written, the ladder gives up BTC.</b> From 2017 it ends with 0.17 BTC-worth against 1.0 for buy &amp; hold. S1 and S2 fire on ordinary 8–14% bounces, and BTC usually keeps running after those.</li>
@@ -416,7 +460,7 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   </ul>
 </section>
 
-<section class="card lazy fake" id="sec-more">
+<section class="card lazy fake a-theme" id="sec-more">
   <h2><span class="no">09 — </span>Theme</h2>
   <div class="row" id="themes"></div>
 </section>
@@ -554,7 +598,7 @@ function renderDemo(){
   $('demoLog').innerHTML=d.tr.length?d.tr.slice().reverse().map(r=>`<div>${dstr(dates[r.t])} · ${r.side==='S'?'▼ SELL':'▲ BUY'} ${r.side}${r.k} · ${r.q.toFixed(5)} BTC @ $${fmt(r.P)}</div>`).join(''):'<div>No trades yet in this period.</div>';
 }
 function lineChart(series,opt){
-  const W=520,H=opt.h||230,L=8,R=50,T=10,B=24,n=series[0].v.length;
+  const W=Math.max(300,Math.round(opt.W||520)),H=opt.h||230,L=8,R=50,T=10,B=24,n=series[0].v.length;
   const all=series.flatMap(s=>s.v.filter(x=>isFinite(x)));let lo=Math.min(...all,opt.min??Infinity),hi=Math.max(...all,opt.max??-Infinity);
   const f=opt.log?Math.log10:x=>x;const a=f(lo),b=f(hi),pad=(b-a)*0.06;const y=v=>T+(H-T-B)*(1-(f(v)-(a-pad))/((b+pad)-(a-pad)));const x=i=>L+(W-L-R)*i/(n-1);
   let g='';const ticks=opt.log?(()=>{const r=[];for(let e=Math.floor(a);e<=Math.ceil(b);e++)[1,2,5].forEach(m=>{const v=m*10**e;if(v>=lo*0.9&&v<=hi*1.1)r.push(v)});return r.length>6?r.filter((_,i)=>i%2==0):r})():(()=>{const r=[],st=(hi-lo)/4;for(let i=0;i<=4;i++)r.push(lo+st*i);return r})();
@@ -572,7 +616,8 @@ function renderChart(){
   const step=Math.max(1,Math.floor(P.length/420));const idx=[];for(let i=0;i<P.length;i+=step)idx.push(i);if(idx[idx.length-1]!==P.length-1)idx.push(P.length-1);
   const marks=sim.tr.filter(r=>r.t>=s0).map(r=>{const rel=r.t-s0;return {i:Math.min(Math.round(rel/step),idx.length-1),v:P[rel],s:r.side}});
   const thinned=marks.length>60?marks.filter((_,i)=>i%Math.ceil(marks.length/60)==0):marks;
-  $('chart').innerHTML=lineChart([{v:idx.map(i=>M[i]),dash:1,w:1.6},{v:idx.map(i=>P[i])}],{log:true,fmt:v=>'$'+(v>=1000?(v/1000)+'k':v),marks:thinned,xt:xticks(idx.map(i=>D[i]),5)});
+  const cw=$('chart').clientWidth||520;
+  $('chart').innerHTML=lineChart([{v:idx.map(i=>M[i]),dash:1,w:1.6},{v:idx.map(i=>P[i])}],{W:cw,h:innerWidth>=1100?400:(innerWidth>=700?260:230),log:true,fmt:v=>'$'+(v>=1000?(v/1000)+'k':v),marks:thinned,xt:xticks(idx.map(i=>D[i]),5)});
 }
 const btCache=new Map();
 function renderBacktest(){
@@ -587,7 +632,7 @@ function renderBacktest(){
   <div class="meta">Static = holds the same average BTC share as the ${S.btMode==='gated'?'gated':'as-written'} ladder, rebalanced, with no timing. If the ladder can't beat this, the timing adds nothing. Data to ${dstr(dates[dates.length-1])}.</div>`;
   const step=Math.max(1,Math.floor(p.length/400)),idx=[];for(let i=0;i<p.length;i+=step)idx.push(i);idx.push(p.length-1);
   const be=r=>idx.map(i=>(r.eq[i]/r.eq[0]*p[0])/p[i]);
-  $('btcEqChart').innerHTML=lineChart([{v:be(a),w:1.6,dash:1},{v:be(g),w:2.4}],{h:190,fmt:v=>v.toFixed(2),ref:1,xt:xticks(idx.map(i=>D[i]),5),min:0})+'<div class="legend"><span>┅ as written</span><span>━ trend-gated</span><span>- - 1.0 = buy &amp; hold</span></div>';
+  $('btcEqChart').innerHTML=lineChart([{v:be(a),w:1.6,dash:1},{v:be(g),w:2.4}],{W:$('btcEqChart').clientWidth||520,h:innerWidth>=1100?240:190,fmt:v=>v.toFixed(2),ref:1,xt:xticks(idx.map(i=>D[i]),5),min:0})+'<div class="legend"><span>┅ as written</span><span>━ trend-gated</span><span>- - 1.0 = buy &amp; hold</span></div>';
   btCache.set(key,[$('btTable').innerHTML,$('btcEqChart').innerHTML]);
 }
 const conf=()=>S.maKind==='off'?null:{kind:S.maKind,N:S.maN};
@@ -664,6 +709,7 @@ if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.service
   const hd=sh.querySelector('.sheet-top');hd.addEventListener('touchstart',e=>{y0=e.touches[0].clientY;sh.style.transition='none'},{passive:true});
   hd.addEventListener('touchmove',e=>{if(y0==null)return;const d=Math.max(0,e.touches[0].clientY-y0);sh.style.transform=`translateY(${d}px)`},{passive:true});
   hd.addEventListener('touchend',e=>{if(y0==null)return;const d=e.changedTouches[0].clientY-y0;y0=null;sh.style.transition='';if(d>90)close();else sh.style.transform=''})})();
+let lastW=innerWidth,rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{if(Math.abs(innerWidth-lastW)<2)return;lastW=innerWidth;if(typeof btCache!=='undefined')btCache.clear();renderChart();renderBacktest()},180)});
 (function(){const bar=$('tabbar');if(!bar)return;const links=[...bar.querySelectorAll('a')];
   links.forEach(a=>a.onclick=e=>{e.preventDefault();const el=document.getElementById(a.dataset.s);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});links.forEach(x=>x.classList.toggle('on',x===a))});
   const secs=links.map(a=>document.getElementById(a.dataset.s));let tick=false,cur='';
