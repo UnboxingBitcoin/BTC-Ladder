@@ -229,13 +229,7 @@ html[data-glass] .wrap{position:relative}
 html[data-glass] .clouds{position:absolute;top:0;left:0;width:100%;height:auto;margin:0;z-index:0;pointer-events:none}
 html[data-glass] header{margin-top:4px}
 /* price change tiles */
-.chg{grid-template-columns:repeat(4,1fr)!important;gap:6px!important}
-.chg .stat{padding:7px 8px!important}
-.chg .stat b{font-size:14px!important;margin-top:1px}
-.chg .lbl{font-size:10px!important}
 .rcol{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.mabtn{font-size:11px;min-height:30px;padding:5px 10px}
-html[data-glass] .mabtn{font-size:13px!important;padding:6px 12px!important;min-height:30px}
 /* bottom sheet */
 .sheet-bg{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.28);opacity:0;transition:opacity .28s}
 .sheet-bg.open{opacity:1}
@@ -256,6 +250,25 @@ html[data-glass] .sheet-bg{background:rgba(40,25,0,.18)}
 html[data-glass] main.wrap{transition:transform .34s cubic-bezier(.2,.85,.25,1),filter .34s;transform-origin:50% 0}
 html[data-glass] body.sheet-open main.wrap{transform:scale(.94);filter:saturate(.9)}
 html[data-glass] body.sheet-open .tabbar{opacity:.4}
+
+/* --- fast glass: cards paint a pre-blurred copy of the page background (same look, no per-frame blur) --- */
+html[data-glass] body{background-size:96px 96px,100% 2400px;background-repeat:repeat,repeat-y}
+html[data-glass] .card.fake{-webkit-backdrop-filter:none;backdrop-filter:none;
+  background-image:var(--glass-fill),var(--bd);background-size:auto,var(--vw,100vw) 2400px;background-position:0 0,var(--bx,0) var(--by,0);background-repeat:no-repeat,repeat-y}
+html[data-theme=taan]{--bd:url("data:image/webp;base64,UklGRooBAABXRUJQVlA4IH4BAABwDwCdASowAIAAPmEkkEWkIaGVXP48QAYEoAv3HA1h5sdqvtC56dcH/3KkfP+5PnZ2m7PWFhdc6rxS51wm+0rB43HoMm4hiOybgFasy5tBoL8s0zT1v+i/DLgZiVHqkpkY5L2YRhcgJDxj+SqNu/8u7iI6ymHBMWtMhnyJuCb+9qMefMgA/u1FBZAXdDsKzv7z5/c+f0d1t/z72NP89M7zCTS9aSUcU32Oy/87LkzsTNoCTPDDLOVnWeT4WjZw04dXyBPlSuskQNZl9M2BcFECvyZj3L3gENZIfIy6ahENOhJmsmUBfIiMHVAJidAJxac12Iw5ARAxyRUD+R+pFpyx1D5Xf0Jc6j3dkP3Z3V1CjzRZrbAJHwh2lbm6VEv2tr2fVUGwv+Q0KZUvGseCNRmJsaRRwrujFgpUQa8NQXr5nen7wlbc0YiZTKr1mhpVbu7GjpIdDvMhO8S01tTKnP2GXn6fTfZxuNSqXBZ2BdKmKPyKdDMERry+mbpm2AAA")}
+html[data-theme=glassbw]{--bd:url("data:image/webp;base64,UklGRiwBAABXRUJQVlA4ICABAADQDwCdASowAIAAPk0cikUioaEd/t6oKATEtIBq+6ntRWSn6c42BK7Jf8oKvDI/9V3bESC5Lsuf947koH+qMhcdPCaLw9hrwdDJl6UyVvrmCw2/cen94v3Ek9t6frpgPvmA7k/fD2jWu9gpHI5ssgkYW2FPRsFOvgmFVHJcYOXLkIADu70gWYAA/vjDRkMtzHTJMhtIAWcw8qAUw+VxMI9MhkCkK2CCy95L4iq57K/XZUOJeKwqJGEUjr1Q/Mv8RnhLFxOZwAWryW9wAhAK0u1WleY9JeE+dd/220e/3FkFoJyEfM7Xc1JFfAwxEfOcgW/1AnoT4eaMNPJchCpFor6DCvOpJpBS29kO49awmx6VATmb7zGx6cZNePCq0mhgAAA=")}
+html[data-theme=glasspurple]{--bd:url("data:image/webp;base64,UklGRqABAABXRUJQVlA4IJQBAABwEQCdASowAIAAPlkkjUUjoiEZ/M44OAWEoAwcPfSEGVSXhR9/2UFi7ef/zzJihGMaoZ+yhR9H17rYXv9kwdb+3iYSazOcffX7HSsIaCsDePmHGNvKRaJGvifb4keSEtrwUazM/HaoWz09t8hSsRFvE9pFMFVuA5GGoAB4VwxAmvROlwn1KoXgQl6MTh/e99Ysl3qQAP7qeCYpr3kPG95musv/5Z/8/sKlfEJ6dWPVBepxA8knrJxmfO+vagpJlA5kW5HlMEPSMVPSviMAytDzAOvOlT4kjWdmAgLBDFhoOfn4SjVvuLkH++u7//pEDxevVo2pBie1yG3PLVHtOWQ1WpI90BwpNI0ogfuFQoTSVgWbfnVt4PyjD/ai90pAlh4iUUJcMZyhIsVwSj56JrRiBZsSaxxY6umU/kejfL8ZKGqjuPTeHiymR2qZCKavPfL46KFUZNivK/Aal/sbv9KgYVqz77PdAYqNwLwU7X//Fgl0BnK1M6QSy45xK0DUrQnyIJhqCHOXeYzX360aRNdFOjAAAA==")}
+html[data-glass] header,html[data-glass] .tabbar{will-change:transform}
+/* price row + bigger MA button */
+.prow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.prow .big{min-width:0}
+.mabtn{font-size:13px!important;min-height:40px!important;padding:8px 14px!important;white-space:nowrap;flex:none}
+html[data-glass] .mabtn{font-size:15px!important;padding:10px 16px!important;min-height:42px!important}
+.chg{grid-template-columns:repeat(5,1fr)!important;gap:5px!important}
+.chg .stat{padding:6px 6px!important}
+.chg .stat b{font-size:13px!important}
+.chg .lbl{font-size:10px!important;letter-spacing:0!important}
+
 /* header theme buttons */
 html[data-glass] header h1{white-space:nowrap;font-size:16px}
 html[data-glass] header img.logo{width:30px;height:30px}
@@ -286,6 +299,7 @@ html[data-theme=glassbw] .gz.buy{background:rgba(0,0,0,.08)}
 html[data-theme=glassbw] .dot{background:#111;box-shadow:0 0 0 3px rgba(0,0,0,.12)}
 html[data-theme=glassbw] .notice.pop .dot{background:#fff}
 html[data-theme=glassbw] .tag.live{background:#111}
+html[data-theme=glassbw] .bar i{background:linear-gradient(90deg,#000,#444)}
 html[data-theme=glassbw] #glassBtn{background:linear-gradient(180deg,#2a2a2a,#000)}
 /* Purple glass */
 html[data-theme=glasspurple]{--ink:#1d1533;--muted:rgba(29,21,51,.6);--hair:rgba(29,21,51,.12);--good:#14804a;--bad:#d1355a;--warn:#6d4aff;--pop:#6d4aff;--on-pop:#fff}
@@ -313,8 +327,8 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
 </header>
 
 <section class="card" id="sec-price">
-  <div class="row" style="justify-content:space-between;align-items:flex-start"><h2><span class="no">01 — </span>Price</h2><div class="rcol"><span class="tag" id="srcTag">saved</span><button class="btn mabtn" id="maBtn" aria-haspopup="dialog">MA levels ›</button></div></div>
-  <div class="big" id="price">—</div>
+  <div class="row" style="justify-content:space-between;align-items:flex-start"><h2><span class="no">01 — </span>Price</h2><span class="tag" id="srcTag">saved</span></div>
+  <div class="prow"><div class="big" id="price">—</div><button class="btn mabtn" id="maBtn" aria-haspopup="dialog">MA levels ›</button></div>
   <div class="meta" id="asof"></div>
   <div class="stats chg" id="chg"></div>
   <div style="margin-top:16px"><span class="lbl">Trend gauge · price ÷ 200-day avg</span>
@@ -329,7 +343,7 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   <div id="dataNote"></div>
 </section>
 
-<section class="card" id="sec-signals">
+<section class="card fake" id="sec-signals">
   <h2><span class="no">02 — </span>Today's signals</h2>
   <div class="chips" id="modeChips"></div>
   <div class="lbl" style="margin:2px 0 6px">Moving-average check</div>
@@ -342,7 +356,7 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   <div id="buyTiers"></div>
 </section>
 
-<section class="card lazy" id="sec-demo">
+<section class="card lazy fake" id="sec-demo">
   <h2><span class="no">03 — </span>Demo portfolio</h2>
   <div class="grid2">
     <label><span class="lbl">Start date</span><input type="date" id="demoStart" value="2025-01-01" min="2014-01-01"></label>
@@ -355,7 +369,7 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   <div class="meta">Paper trades only. Follows the mode picked in Today's signals. Cash earns 4% a year, like a fixed savings account.</div>
 </section>
 
-<section class="card lazy">
+<section class="card lazy fake">
   <h2><span class="no">04 — </span>My action today</h2>
   <div class="grid2">
     <label><span class="lbl">BTC held</span><input type="number" id="myBtc" step="0.0001" min="0" value="1"></label>
@@ -366,21 +380,21 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   <div class="meta">Buy tiers 1–3 spend part of the cash raised by sell tiers 1–3. With one cash total, this applies the same fractions to your whole reserve. B4 spends 90% of all cash.</div>
 </section>
 
-<section class="card lazy">
+<section class="card lazy fake">
   <h2><span class="no">05 — </span>Alerts</h2>
   <div id="alertState" class="meta" style="margin:0 0 10px"></div>
   <button class="btn primary" id="alertBtn">Turn on alerts</button>
   <div class="meta" style="margin-top:10px">The page checks the price every 10 minutes while it's open and sends a phone notification when a tier fires. On iPhone, first add the page to your Home Screen (Share → Add to Home Screen) and open it from there.</div>
 </section>
 
-<section class="card lazy">
+<section class="card lazy fake">
   <h2><span class="no">06 — </span>Chart</h2>
   <div class="chips" id="rangeChips"></div>
   <div id="chart"></div>
   <div class="legend"><span>━ price (log)</span><span>┅ 200-day avg</span><span>▼ sell</span><span>▲ buy</span></div>
 </section>
 
-<section class="card lazy" id="sec-backtest">
+<section class="card lazy fake" id="sec-backtest">
   <h2><span class="no">07 — </span>Backtest</h2>
   <div class="chips" id="btMode"></div>
   <div class="chips" id="btStart"></div>
@@ -392,7 +406,7 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   <div class="meta">Starts with 1 BTC and no cash. 0.1% fee per trade, no tax. Each tier measures the move from the lowest price (sells) or highest price (buys) inside its own day window. A tier fires when its rule starts matching, and can fire again after the rule stops matching and then matches again. Range values use the midpoint: S1 0.8%, S2 2%, S4 8%, S6 16%, B2 65%.</div>
 </section>
 
-<section class="card lazy">
+<section class="card lazy fake">
   <h2><span class="no">08 — </span>What the test says</h2>
   <ul class="f">
     <li><b>As written, the ladder gives up BTC.</b> From 2017 it ends with 0.17 BTC-worth against 1.0 for buy &amp; hold. S1 and S2 fire on ordinary 8–14% bounces, and BTC usually keeps running after those.</li>
@@ -402,7 +416,7 @@ html[data-theme=glasspurple] input:focus{box-shadow:var(--tile-rim),0 0 0 3px rg
   </ul>
 </section>
 
-<section class="card lazy" id="sec-more">
+<section class="card lazy fake" id="sec-more">
   <h2><span class="no">09 — </span>Theme</h2>
   <div class="row" id="themes"></div>
 </section>
@@ -479,7 +493,7 @@ function renderTop(){
   const set=(id,v)=>{$(id).textContent=pct(v);$(id).className=v>=0?'pos':'neg'};
   let ath=0;for(const v of px)if(v>ath)ath=v;
   const tile=(l,v)=>`<div class="stat"><span class="lbl">${l}</span><b class="${v>=0?'pos':'neg'}">${pct(v)}</b></div>`;
-  $('chg').innerHTML=[1,7,13,21,34,55,89,144,180,233,360].map(d=>tile(d+'d',P/px[n-1-d]-1)).join('')+tile('ATH',P/ath-1);
+  $('chg').innerHTML=[1,7,13,21,34,55,89,144,180,233,360,720,1008,1440].map(d=>tile(d+'d',P/px[Math.max(0,n-1-d)]-1)).join('')+tile('ATH',P/ath-1);
   const ma=sim.ma[n-1],x=P/ma,X=v=>Math.max(0,Math.min(100,(v-0.5)/2.5*100));
   $('gauge').innerHTML=`<div class="gz buy" style="left:0;width:${X(1)}%"></div><div class="gz sell" style="left:${X(2)}%;right:0"></div><div class="needle" style="left:calc(${X(x)}% - 2px)"></div>`;
   $('gaugeTxt').textContent=`Now ${x.toFixed(2)}× · 200-day avg $${fmt(ma)} · `+(x>=sim.sg?'SELL ZONE: gated sells allowed':x<=BG?'BUY ZONE: gated buys allowed':'Neutral: gated mode waits');
@@ -580,7 +594,7 @@ const conf=()=>S.maKind==='off'?null:{kind:S.maKind,N:S.maN};
 function recompute(){sim=simulate(px,{gated:S.mode==='gated',sg:S.gate,conf:conf()})}
 function renderMA(){const n=px.length,P=px[n-1];const ma200=sim?sim.ma[n-1]:rollMean(px,200,50)[n-1];
   const cell=v=>`<td>$${fmt(v)}<br><span class="${P>v?'pos':'neg'}">${P>v?'▲':'▼'} ${pct(P/v-1)}</span></td>`;
-  const rows=[21,55,100,233].map(N=>{const a=movingAvg(px,'SMA',N).at(-1),b=movingAvg(px,'EMA',N).at(-1);return `<tr${S.maKind!=='off'&&S.maN===N?' class="hl"':''}><td>${N} days</td>${cell(a)}${cell(b)}</tr>`}).join('');
+  const rows=[21,55,100,233,720,1008,1440].map(N=>{const a=movingAvg(px,'SMA',N).at(-1),b=movingAvg(px,'EMA',N).at(-1);return `<tr${S.maKind!=='off'&&S.maN===N?' class="hl"':''}><td>${N} days</td>${cell(a)}${cell(b)}</tr>`}).join('');
   const above=[21,55,100,233].filter(N=>P>movingAvg(px,'EMA',N).at(-1)).length;
   $('maTable').innerHTML=`<div class="kv"><span>BTC now</span><b>$${fmt(P)}</b></div>
   <table><tr><th>Average</th><th>SMA</th><th>EMA</th></tr>${rows}<tr><td>200 days</td>${cell(ma200)}<td class="meta">trend gate</td></tr></table>
@@ -601,7 +615,7 @@ function applyTheme(t){t=THEMES.some(x=>x[0]===t)?t:"taan";const isG=GLASS.inclu
   $('tc').setAttribute("content",TC[t]?TC[t]:t==="noir"?"#000000":t==="mono"?"#ffffff":getComputedStyle(document.documentElement).getPropertyValue("--bg").trim());
   $('themes').innerHTML=THEMES.map(([k,l,c])=>`<button class="sw${k===t?' on':''}" title="${l}" aria-label="${l}" style="background:${c}" data-t="${k}"></button>`).join('');
   document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>applyTheme(b.dataset.t));
-  if(sim&&booted)renderAll();}
+  if(sim&&booted)renderAll();document.dispatchEvent(new Event('btc-theme'))}
 const GLASS=['taan','glassbw','glasspurple'],RETRO=['pista','butter','sky','bubblegum','lilac','night','mono','noir'];
 function lastOf(f){let v=null;try{v=localStorage.getItem('btcladder-last'+f)}catch(e){}const L=f==='glass'?GLASS:RETRO;return L.includes(v)?v:L[0]}
 function cycle(L,f){const c=curTheme();applyTheme(L.includes(c)?L[(L.indexOf(c)+1)%L.length]:lastOf(f))}
@@ -656,6 +670,12 @@ if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.service
   const upd=()=>{tick=false;const mid=innerHeight*.4;let id=secs[0].id;for(const el of secs){if(el&&el.getBoundingClientRect().top<=mid)id=el.id}
     if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)id=secs[secs.length-1].id;if(id!==cur){cur=id;links.forEach(x=>x.classList.toggle('on',x.dataset.s===id))}};
   addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});})();
+(function(){let q=false;const vwOf=()=>document.documentElement.clientWidth;
+  window.placeGlass=()=>{q=false;const d=document.documentElement;if(!d.hasAttribute('data-glass')||document.body.classList.contains('sheet-open'))return;const vw=vwOf(),sy=scrollY;
+    document.querySelectorAll('.card.fake').forEach(c=>{const r=c.getBoundingClientRect();c.style.setProperty('--vw',vw+'px');c.style.setProperty('--bx',(-r.left)+'px');c.style.setProperty('--by',(-(r.top+sy))+'px')})};
+  const ask=()=>{if(!q){q=true;requestAnimationFrame(placeGlass)}};
+  if('ResizeObserver' in window){const ro=new ResizeObserver(ask);ro.observe(document.querySelector('main'))}
+  addEventListener('resize',ask);addEventListener('load',ask);document.addEventListener('btc-theme',ask)})();
 let booted=false;recompute();applyTheme(curTheme());booted=true;renderAll();
 let lastSig='';async function refresh(){if(document.hidden)return;if(await tryLive()){const sig=px.length+':'+px[px.length-1];if(sig===lastSig)return;lastSig=sig;recompute();renderAll();checkAlerts()}}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
