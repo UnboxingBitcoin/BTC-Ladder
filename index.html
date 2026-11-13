@@ -588,9 +588,10 @@ function checkAlerts(){if(!alertsOn())return;const t=px.length-1,day=new Date(da
 // live data
 async function tryLive(){
   const merge=(t,close)=>{t=Math.floor(t/DAY)*DAY;if(t>dates[dates.length-1]){while(dates[dates.length-1]+DAY<t){dates.push(dates[dates.length-1]+DAY);px.push(px[px.length-1])}dates.push(t);px.push(close)}else{const i=Math.round((t-dates[0])/DAY);if(i>=0&&i<px.length)px[i]=close}};
-  try{const r=await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=1000',{cache:'no-store'});if(!r.ok)throw 0;const k=await r.json();if(!k.length)throw 0;
+  const need=Math.min(1000,Math.max(5,Math.ceil((Date.now()-dates[dates.length-1])/DAY)+3));
+  try{const r=await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit='+need,{cache:'no-store'});if(!r.ok)throw 0;const k=await r.json();if(!k.length)throw 0;
     const cut=dates[dates.length-1]-3*DAY;k.forEach(c=>{if(c[0]>cut)merge(c[0],+c[4])});src='live';liveName='Binance';return true}catch(e){}
-  try{const r=await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=365&interval=daily',{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();
+  try{const r=await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days='+Math.min(365,need)+'&interval=daily',{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();
     const cut=dates[dates.length-1]-3*DAY;j.prices.forEach(([t,v])=>{if(t>cut)merge(t,v)});src='live';liveName='CoinGecko';return true}catch(e){}
   return false}
 
